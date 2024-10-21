@@ -74,7 +74,7 @@ Our code support different collaboration settings. The commonly used arguments:
 
 `--max_discuss_iteration`: the max discussion iterations for a team in a step
 
-`--max_team_member`: the max team member of a team (including the leader)
+`--max_team_member`: the max team member of a team (including the team leader)
 
 `--epochs`: the allowed time steps for one program run (default value is 6, which is enough for a scientist to finish all steps)
 
