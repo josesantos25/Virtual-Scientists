@@ -48,6 +48,10 @@ After preprocessing, the used data is publicly available at [Google Drive](https
 - Author knowledge bank is put in the `Authors/books.tar`.
 - Adjacency matrix is put in the `adjacency.txt`.
 
+#### Note
+
+Please replace all paths in `sci_platform/sci_platform.py` with your own settings after download the data.
+
 ### Code
 
 Here we explain the roles of several critial files.
@@ -72,7 +76,7 @@ In our experiments, we use `ollama` to deploy the `llama3.1-8b` and `llama3.1-70
 
 #### Run
 
-After pull llama3.1 model, open the ollama server and run our codes:
+After pull `llama3.1` model, open the ollama server and run our codes:
 
 ```
 cd sci_platform/
