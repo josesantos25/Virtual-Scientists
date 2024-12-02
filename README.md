@@ -124,6 +124,9 @@ Welcome to join our discussion group on collective intelligence technology!
 |--------------------|
 | <img src="Group.jpg" width="200" height="200"> |
 
+### Note
+
+If you find that the WeChat QR code has expired, please send us an email with your WeChat ID, and we will manually invite you to the group.
 
 ## ⚖ License
 
