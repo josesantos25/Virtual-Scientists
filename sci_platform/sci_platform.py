@@ -30,11 +30,10 @@ class Platform:
     def __init__(self,
                  model_configuration: str = './configs/model_configs.json',
                  agent_num: int = 1,
-                 root_dir: str = '/home/bingxing2/ailab/group/ai4agr/shy/s4s',
                  paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers",
                  future_paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers_future",
-                 author_info_dir: str = 'authors',
-                 adjacency_matrix_dir: str = 'authors_degree_ge50_from_year2000to2010',
+                 author_info_dir: str = '/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books',
+                 adjacency_matrix_dir: str = 'Your folder path',
                  agent_model_config_name: str = 'ollama_llama3.1_8b',
                  review_model_config_name: str = 'ollama_llama3.1_70b',
                  knowledgeBank_config_dir: str = "./configs/knowledge_config.json",
@@ -56,8 +55,8 @@ class Platform:
         self.agent_num = agent_num
         self.paper_folder_path = paper_folder_path
         self.paper_future_folder_path = future_paper_folder_path
-        self.author_info_dir = os.path.join(root_dir, author_info_dir)
-        self.adjacency_matrix_dir = os.path.join(root_dir, adjacency_matrix_dir)
+        self.author_info_dir = author_info_dir
+        self.adjacency_matrix_dir = adjacency_matrix_dir
         self.group_max_discuss_iteration = group_max_discuss_iteration
         self.recent_n_team_mem_for_retrieve = recent_n_team_mem_for_retrieve
         # how many teams for one agent is allowed
@@ -106,7 +105,7 @@ class Platform:
             self.knowledge_bank = self.init_knowledgeBank(knowledgeBank_config_dir)
 
         # init agent pool
-        self.agent_pool = [self.init_agent(str(agent_id), agent_model_config_name, '/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books/author_{}.txt'.format(agent_id)) for agent_id in range(len(self.adjacency_matrix))]
+        self.agent_pool = [self.init_agent(str(agent_id), agent_model_config_name, '{}/author_{}.txt'.format(self.author_info_dir, agent_id)) for agent_id in range(len(self.adjacency_matrix))]
         self.reviewer_pool = [self.init_reviewer(str(agent_id), review_model_config_name) for agent_id in range(self.reviewer_num)]
         self.id2agent = {}
         for agent in self.agent_pool:
@@ -169,14 +168,14 @@ class Platform:
         return agent
 
     def init_knowledgeBank(self, knowledgeBank_config_dir):
-        knowledge_bank = KnowledgeBank(configs="configs/knowledge_config.json")
+        knowledge_bank = KnowledgeBank(configs=knowledgeBank_config_dir)
 
         # alternatively, we can easily input the configs to add data to RAG
         knowledge_bank.add_data_as_knowledge(
             knowledge_id="author_information",
             emb_model_name="ollama_embedding-mxbai-embed-large",
             data_dirs_and_types={
-                "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books": [".txt"],
+                self.author_info_dir: [".txt"],
             },
         )
         return knowledge_bank
