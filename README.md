@@ -161,7 +161,7 @@ Welcome to join our discussion group on collective intelligence technology!
 
 | Wechat             |          
 |--------------------|
-| <img src="Group1.jpg" width="200" height="200"> |
+| <img src="Group.jpg" width="200" height="200"> |
 
 ### Note
 
