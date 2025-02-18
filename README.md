@@ -2,7 +2,7 @@
   <img src='logo.png' width=700>
 </p>
 
-# Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation.
+# Many Heads Are Better Than One: Improved Scientific Idea Generation by A LLM-Based Multi-Agent System.
 
 ## 👀 Introduction
 
