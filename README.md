@@ -14,7 +14,7 @@ This repository contains the code for our paper `Many Heads Are Better Than One:
 
 - Extensive experiments demonstrate that multi-agent collaboration improves outcome quality, surpassing existing methods. We also conduct systematic experiments to investigate factors influencing the system, with findings aligning with established principles from the Science of Science, such as fresh teams tend to generate more innovative research, underscoring VirSci's reliability as a powerful tool for autonomous scientific discovery.
 
-Our project website is [Website](https://renqichen.github.io/Virtual-Scientists/).
+Our project website is [Website](https://open-sciencelab.github.io/Virtual-Scientists/).
 
 ## 📆 Updates 
 ### [2024-10]
