@@ -2,19 +2,19 @@
   <img src='logo.png' width=700>
 </p>
 
-# Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation.
+# Many Heads Are Better Than One: Improved Scientific Idea Generation by A LLM-Based Multi-Agent System.
 
 ## 👀 Introduction
 
-This repository contains the code for our paper `Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation`. 
+This repository contains the code for our paper `Many Heads Are Better Than One: Improved Scientific Idea Generation by A LLM-Based Multi-Agent System`. 
 
-- To the best of our knowledge, we propose the first multi-agent system for conducting scientific collaborations in an end-to-end pipeline from team organization to novel scientific idea generation. Furthermore, the real data is utilized for role-play and the objective evaluation of final outputs.
+- To the best of our knowledge, we propose the first multi-agent system with a scientific research ecosystem for conducting and benchmarking scientific collaborations, named VirSci, where real data is used for role-playing and objective evaluation.
 
-- We conduct extensive evaluations to investigate VirSci in terms of the team settings and the novelty of generated scientific ideas. The results demonstrate that multi-agent collaboration can improve the quality of the outcomes, surpassing the SOTA single-agent method.
+- To simulate a reliable scientific collaboration process, we propose an end-to-end pipeline that spans team organization to idea generation. A novel inter- and intra-team discussion mechanism is introduced to promote communication topology and enhance the simulation realism.
 
-- The simulation results align with the important findings in Science of Science, such as fresh teams tend to create more innovative research, showcasing the potential of VirSci as a powerful tool for future research in this field.
+- Extensive experiments demonstrate that multi-agent collaboration improves outcome quality, surpassing existing methods. We also conduct systematic experiments to investigate factors influencing the system, with findings aligning with established principles from the Science of Science, such as fresh teams tend to generate more innovative research, underscoring VirSci's reliability as a powerful tool for autonomous scientific discovery.
 
-Our project website is [Website](https://open-sciencelab.github.io/Social_Science/).
+Our project website is [Website](https://renqichen.github.io/Virtual-Scientists/).
 
 ## 📆 Updates 
 ### [2024-10]
