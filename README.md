@@ -19,8 +19,8 @@ Our project website is [Website](https://open-sciencelab.github.io/Virtual-Scien
 ## 📆 Updates 
 ### [2024-10]
 1. We propose the VirSci, a multi-agent system has the potential to improve scientific idea generation.
-2. Watch demo video for our project at <a href="https://www.youtube.com/watch?v=oMSEAeGfTIk" target="_blank">YouTube</a>.
-3. Full paper with Appendix is available on <a href="https://arxiv.org/abs/2306.06687" target="_blank">Arxiv</a>.
+2. Watch demo video for our project at <a href="https://www.youtube.com/watch?v=p_Vdpq8ImeE" target="_blank">YouTube</a>.
+3. Full paper with Appendix is available on <a href="https://arxiv.org/abs/2410.09403" target="_blank">Arxiv</a>.
 4. VirSci code and data are available for Research community.
 
 ## 💡 Run
