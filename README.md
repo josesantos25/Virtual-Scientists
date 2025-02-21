@@ -17,6 +17,10 @@ This repository contains the code for our paper `Many Heads Are Better Than One:
 Our project website is [Website](https://renqichen.github.io/Virtual-Scientists/).
 
 ## 📆 Updates 
+
+### [2025-02]
+1. We update our paper with Appendix on <a href="https://arxiv.org/pdf/2410.09403" target="_blank">Arxiv</a>.
+
 ### [2024-10]
 1. We propose the VirSci, a multi-agent system has the potential to improve scientific idea generation.
 2. Watch demo video for our project at <a href="https://www.youtube.com/watch?v=p_Vdpq8ImeE" target="_blank">YouTube</a>.
