@@ -173,10 +173,13 @@ This repository is licensed under the [Apache-2.0 License](LICENSE/).
 If you find this code useful, please consider citing our work:
 
 ```bibtex
-@article{su2024two,
-  title={Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation},
-  author={Su, Haoyang and Chen, Renqi and Tang, Shixiang and Zheng, Xinzhe and Li, Jingzhe and Yin, Zhenfei and Ouyang, Wanli and Dong, Nanqing},
-  journal={arXiv preprint arXiv:2410.09403},
-  year={2024}
+@misc{su2025headsbetteroneimproved,
+      title={Many Heads Are Better Than One: Improved Scientific Idea Generation by A LLM-Based Multi-Agent System}, 
+      author={Haoyang Su and Renqi Chen and Shixiang Tang and Zhenfei Yin and Xinzhe Zheng and Jinzhe Li and Biqing Qi and Qi Wu and Hui Li and Wanli Ouyang and Philip Torr and Bowen Zhou and Nanqing Dong},
+      year={2025},
+      eprint={2410.09403},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2410.09403}, 
 }
 ```
