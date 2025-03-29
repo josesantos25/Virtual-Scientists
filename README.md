@@ -152,16 +152,6 @@ The raw data is based on the [AMiner Computer Science Dataset](https://www.amine
 
 If you have any questions, please contact at \[chenrenqi@pjlab.org.cn, suhaoyang@pjlab.org.cn].
 
-Welcome to join our discussion group on collective intelligence technology!
-
-| Wechat                         |
-| ------------------------------ |
-| ![](.gitbook/assets/Group.jpg) |
-
-#### Note
-
-If you find that the WeChat QR code has expired, please send us an email with your WeChat ID, and we will manually invite you to the group.
-
 ### ⚖ License
 
 This repository is licensed under the [Apache-2.0 License](LICENSE/).
