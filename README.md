@@ -14,6 +14,10 @@ Our project website is [Website](https://renqichen.github.io/Virtual-Scientists/
 
 ### 📆 Updates
 
+#### \[2025-04]
+
+1. We release Virtual Scientists 2.0 at https://github.com/RenqiChen/Virtual-Scientists-v2.
+
 #### \[2025-02]
 
 1. We update our paper with Appendix on [Arxiv](https://arxiv.org/pdf/2410.09403).
