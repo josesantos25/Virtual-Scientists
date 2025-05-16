@@ -1,6 +1,6 @@
 <div align="center"><img src=".gitbook/assets/logo.png" alt="" width="700"></div>
 
-## Many Heads Are Better Than One: Improved Scientific Idea Generation by A LLM-Based Multi-Agent System.
+## [ACL 2025] Many Heads Are Better Than One: Improved Scientific Idea Generation by A LLM-Based Multi-Agent System.
 
 ### 👀 Introduction
 
