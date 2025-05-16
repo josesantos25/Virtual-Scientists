@@ -14,6 +14,10 @@ Our project website is [Website](https://renqichen.github.io/Virtual-Scientists/
 
 ### 📆 Updates
 
+#### \[2025-05]
+
+1. VirSci has been accepted by ACL 2025 Main Conference. Congratulations 🎉!
+
 #### \[2025-04]
 
 1. We release a more powerful version, [Virtual Scientists 2.0](https://github.com/RenqiChen/Virtual-Scientists-v2), which supports a million-agent-level scientific collaboration simulation 😊.
