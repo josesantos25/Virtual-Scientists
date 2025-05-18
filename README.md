@@ -167,6 +167,14 @@ This repository is licensed under the [Apache-2.0 License](LICENSE/).
 ### 📌 BibTeX & Citation
 
 If you find this code useful, please consider citing our work:
+```bibtex
+@inproceedings{su2025headsbetteroneimproved,
+  title={Many Heads Are Better Than One: Improved Scientific Idea Generation by A LLM-Based Multi-Agent System},
+  author={Haoyang Su and Renqi Chen and Shixiang Tang and Zhenfei Yin and Xinzhe Zheng and Jinzhe Li and Biqing Qi and Qi Wu and Hui Li and Wanli Ouyang and Philip Torr and Bowen Zhou and Nanqing Dong},
+  booktitle={Proceedings of the 63nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  year={2025}
+}
+```
 
 ```bibtex
 @misc{su2025headsbetteroneimproved,
