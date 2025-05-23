@@ -158,7 +158,7 @@ The raw data is based on the [AMiner Computer Science Dataset](https://www.amine
 
 ### 📧 Contact
 
-If you have any questions, please contact at \[chenrenqi@pjlab.org.cn, suhaoyang@pjlab.org.cn].
+If you have any questions, please contact at \[rqchen23@m.fudan.edu.cn, shy228199751@gmail.com].
 
 ### ⚖ License
 
