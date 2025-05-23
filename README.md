@@ -13,6 +13,9 @@ This repository contains the code for our paper `Many Heads Are Better Than One:
 Our project website is [Website](https://renqichen.github.io/Virtual-Scientists/).
 
 ### 📆 Updates
+#### \[2025-05]
+
+1. Our new paper ``AI-Driven Automation Can Become the Foundation of Next-Era Science of Science Research`` has been posted on [Arxiv](https://arxiv.org/abs/2505.12039).
 
 #### \[2025-05]
 
