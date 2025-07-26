@@ -174,8 +174,11 @@ If you find this code useful, please consider citing our work:
 @inproceedings{su2025headsbetteroneimproved,
   title={Many Heads Are Better Than One: Improved Scientific Idea Generation by A LLM-Based Multi-Agent System},
   author={Haoyang Su and Renqi Chen and Shixiang Tang and Zhenfei Yin and Xinzhe Zheng and Jinzhe Li and Biqing Qi and Qi Wu and Hui Li and Wanli Ouyang and Philip Torr and Bowen Zhou and Nanqing Dong},
-  booktitle={Proceedings of the 63nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
-  year={2025}
+  booktitle={Proceedings of the 63nd Annual Meeting of the Association for Computational Linguistics},
+  year = {2025},
+  month = {July},
+  volume = {1},
+  pages = {28201--28240}
 }
 ```
 
@@ -187,7 +190,7 @@ If you find this code useful, please consider citing our work:
       eprint={2410.09403},
       archivePrefix={arXiv},
       primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2410.09403}, 
+      url={https://arxiv.org/abs/2410.09403}
 }
 ```
 
