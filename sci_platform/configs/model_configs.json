@@ -1,5 +1,12 @@
 [
     {
+        "config_name": "anythingllm_chat",
+        "model_type": "anythingllm_chat",
+        "api_url": "http://localhost:3001/api",
+        "workspace_slug": "scientific-papers",
+        "temperature": 0.5
+    },
+    {
         "config_name": "ollama_llama3.1_8b",
         "model_type": "ollama_chat",
         "model_name": "llama3.1",

@@ -3,23 +3,24 @@ import os
 import numpy as np
 import json
 import re
-import ollama
 from functools import partial
-import faiss
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 sys.path.append('../agentscope-main/src')
 import agentscope
-from agentscope.rag import KnowledgeBank
 from agentscope.agents import SciAgent
 from agentscope.message import Msg
 
 from sci_team.SciTeam import Team
 from utils.prompt import Prompts
+from anythingllm_client import AnythingLLMClient
 from utils.scientist_utils import (
     team_description,
     convert_you_to_other,
     team_description_detail,
-    read_txt_files_as_dict,
     extract_between_json_tags,
     count_team,
 )
@@ -30,13 +31,10 @@ class Platform:
     def __init__(self,
                  model_configuration: str = './configs/model_configs.json',
                  agent_num: int = 1,
-                 paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers",
-                 future_paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers_future",
-                 author_info_dir: str = '/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books',
-                 adjacency_matrix_dir: str = 'Your folder path',
-                 agent_model_config_name: str = 'ollama_llama3.1_8b',
-                 review_model_config_name: str = 'ollama_llama3.1_70b',
-                 knowledgeBank_config_dir: str = "./configs/knowledge_config.json",
+                 author_info_dir: str = './data/authors',
+                 adjacency_matrix_dir: str = './data',
+                 agent_model_config_name: str = 'anythingllm_chat',
+                 review_model_config_name: str = 'anythingllm_chat',
                  log_dir: str = 'logs',
                  info_dir: str = "team_info",
                  hop_num: int = 2,
@@ -53,10 +51,7 @@ class Platform:
                  begin_state: int = 1
                  ):
         self.agent_num = agent_num
-        self.paper_folder_path = paper_folder_path
-        self.paper_future_folder_path = future_paper_folder_path
         self.author_info_dir = author_info_dir
-        self.adjacency_matrix_dir = adjacency_matrix_dir
         self.group_max_discuss_iteration = group_max_discuss_iteration
         self.recent_n_team_mem_for_retrieve = recent_n_team_mem_for_retrieve
         # how many teams for one agent is allowed
@@ -84,12 +79,17 @@ class Platform:
         # for quality, the team of one member will think more times
         self.think_times = max_teammember+1
 
-        # load k-hop adjacency matrix
-        self.degree_int2word = ['one', 'two', 'three', 'four', 'five']
-        # self.adjacency_matrix = np.loadtxt(
-        #     '{}/{}-hop_adj_matrix.txt'.format(self.adjacency_matrix_dir, self.degree_int2word[hop_num-1]), dtype=int)
-        self.adjacency_matrix = np.loadtxt(
-            '{}/adjacency.txt'.format(self.adjacency_matrix_dir), dtype=int)
+        # Initialize AnythingLLM client
+        self.anythingllm_client = AnythingLLMClient()
+        
+        # Load adjacency matrix (simplified - you may need to create this file)
+        adjacency_file = os.path.join(adjacency_matrix_dir, 'adjacency.txt')
+        if os.path.exists(adjacency_file):
+            self.adjacency_matrix = np.loadtxt(adjacency_file, dtype=int)
+        else:
+            # Create a simple adjacency matrix for demonstration
+            print("Warning: adjacency.txt not found, creating simple matrix")
+            self.adjacency_matrix = np.ones((100, 100), dtype=int) - np.eye(100, dtype=int)
 
         # check if agent_num is valid
         if self.agent_num is None:
@@ -100,21 +100,17 @@ class Platform:
         # init agentscope
         agentscope.init(model_configs=model_configuration)
 
-        # init knowledge bank
-        if knowledgeBank_config_dir is not None:
-            self.knowledge_bank = self.init_knowledgeBank(knowledgeBank_config_dir)
-
         # init agent pool
-        self.agent_pool = [self.init_agent(str(agent_id), agent_model_config_name, '{}/author_{}.txt'.format(self.author_info_dir, agent_id)) for agent_id in range(len(self.adjacency_matrix))]
+        self.agent_pool = [self.init_agent(str(agent_id), agent_model_config_name) for agent_id in range(min(self.agent_num, len(self.adjacency_matrix)))]
         self.reviewer_pool = [self.init_reviewer(str(agent_id), review_model_config_name) for agent_id in range(self.reviewer_num)]
         self.id2agent = {}
         for agent in self.agent_pool:
-            self.knowledge_bank.equip(agent, agent.knowledge_id_list)
             self.id2agent[agent.name] = agent
+            
         # team pool
         self.team_pool = []
         agent_id = 1
-        for agent in self.agent_pool[:self.agent_num]:
+        for agent in self.agent_pool:
             team_agent = []
             team_index = []
             team_index.append(agent.name)
@@ -126,63 +122,37 @@ class Platform:
             self.team_pool.append(team_agent)
             agent_id = agent_id + 1
 
-
         # init hint
         self.HostMsg = partial(Msg, name="user", role="user", echo=True)
-
-        # paper embedding list
-        cpu_index = faiss.read_index("/home/bingxing2/ailab/group/ai4agr/crq/SciSci/faiss_index.index")
-        res = faiss.StandardGpuResources()  
-        self.gpu_index = faiss.index_cpu_to_gpu(res, 0, cpu_index)  
-
-        cpu_future_index = faiss.read_index("/home/bingxing2/ailab/group/ai4agr/crq/SciSci/faiss_index_future.index")  
-        future_res = faiss.StandardGpuResources()  
-        self.gpu_future_index = faiss.index_cpu_to_gpu(future_res, 0, cpu_future_index)  # 将索引移到 GPU
-
-        self.paper_dicts = read_txt_files_as_dict(self.paper_folder_path)
-        self.paper_future_dicts = read_txt_files_as_dict(self.paper_future_folder_path)
 
     def init_reviewer(self, agent_id, agent_model_config_name):
         agent = SciAgent(
             name='Paper Reviewer{}'.format(agent_id),
             model_config_name=agent_model_config_name,
             sys_prompt=Prompts.prompt_review_system,
+            anythingllm_client=self.anythingllm_client,
         )
         return agent
 
-    def init_agent(self, agent_id, agent_model_config_name, information_path):
-        # load author info
-        with open(information_path, 'r') as file:
-            prompt = file.read()
+    def init_agent(self, agent_id, agent_model_config_name):
+        # Create a basic scientist prompt
+        prompt = f"""You are Scientist{agent_id}, a researcher with expertise in computer science and artificial intelligence. 
+You have extensive knowledge in machine learning, natural language processing, computer vision, and related fields.
+You are collaborative, innovative, and always seeking to advance scientific knowledge through rigorous research.
+Your goal is to contribute to meaningful scientific discoveries and publications."""
 
         agent = SciAgent(
             name='Scientist{}'.format(agent_id),
             model_config_name=agent_model_config_name,
             sys_prompt=prompt,
-            knowledge_id_list = ["author_information"],
-            similarity_top_k=2,
-            log_retrieval=False,
-            recent_n_mem_for_retrieve=2,
+            anythingllm_client=self.anythingllm_client,
         )
 
         return agent
 
-    def init_knowledgeBank(self, knowledgeBank_config_dir):
-        knowledge_bank = KnowledgeBank(configs=knowledgeBank_config_dir)
-
-        # alternatively, we can easily input the configs to add data to RAG
-        knowledge_bank.add_data_as_knowledge(
-            knowledge_id="author_information",
-            emb_model_name="ollama_embedding-mxbai-embed-large",
-            data_dirs_and_types={
-                self.author_info_dir: [".txt"],
-            },
-        )
-        return knowledge_bank
-
     def select_coauthors(self,):
         team_list = self.team_pool
-        scientists = self.agent_pool[:self.agent_num]
+        scientists = self.agent_pool
         # decide whether the scientist wants to find partners
         for agent_index in range(len(scientists)):
             # avoid too many teams
@@ -298,25 +268,38 @@ class Platform:
         return agent_list
 
     def reference_paper(self, key_string, cite_number):
-        query_vector = ollama.embeddings(model="mxbai-embed-large", prompt=key_string)
-        query_vector = np.array([query_vector['embedding']])
-        D, I = self.gpu_index.search(query_vector, cite_number)
-
+        # Use AnythingLLM to search for relevant papers
+        sources = self.anythingllm_client.search_documents(key_string, limit=cite_number)
+        
         paper_use = []
-        for id in range(len(I[0])):
-            paper_title = self.paper_dicts[I[0][id]]['title']
-            paper_abstract = self.paper_dicts[I[0][id]]['abstract']
-            paper_index = {}
-            paper_index['title'] = paper_title
-            paper_index['abstract'] = paper_abstract
+        paper_ids = []
+        
+        for idx, source in enumerate(sources):
+            # Extract title and content from AnythingLLM source
+            title = source.get('title', f'Paper {idx + 1}')
+            content = source.get('text', source.get('content', ''))
+            
+            # Try to extract abstract from content if it's structured
+            if 'Abstract:' in content:
+                abstract = content.split('Abstract:')[1].split('\n')[0].strip()
+            else:
+                # Use first 200 characters as abstract
+                abstract = content[:200] + "..." if len(content) > 200 else content
+            
+            paper_index = {
+                'title': title,
+                'abstract': abstract
+            }
             paper_use.append(paper_index)
+            paper_ids.append(idx)  # Use index as paper ID
+            
         paper_reference = ""
         for id in range(len(paper_use)):
             paper_index = paper_use[id]
             paper_reference = paper_reference+"Paper {}:".format(id+1)+"\n"
             paper_reference = paper_reference+"Title: "+paper_index['title']+"\n"
             paper_reference = paper_reference+"Abstract: "+paper_index['abstract']+"}"+"\n"
-        return paper_reference, I[0]
+        return paper_reference, paper_ids
 
     def running(self, epochs):
         # init team_pool

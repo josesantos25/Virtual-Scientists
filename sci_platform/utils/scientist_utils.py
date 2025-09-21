@@ -9,7 +9,6 @@ import numpy as np
 import json
 import sqlite3
 import re
-import os
 import sys
 
 sys.path.append('agentscope-main/src')
@@ -41,57 +40,6 @@ def extract_name_and_id(name: str) -> tuple[str, int]:
         name = "Abstain"
         idx = -1
     return name, idx
-
-
-def extract_scientist_names(name: str) -> list:
-    """extract player name and id from a string"""
-    try:
-        matches = re.findall(r"\b[Ss]cientist\d+\b", name)
-        # idx = int(re.search(r"[Pp]layer(\d+)", name).group(1)) - 1
-        names = [f"{num}" for num in matches]
-    except AttributeError:
-        # In case Player remains silent or speaks to abstain.
-        logger.warning(f"vote: invalid name {name}, set to Abstain")
-        names = ["Abstain"]
-        idx = -1
-    return list(set(names))
-
-
-def n2s(agents: Sequence[Union[AgentBase, str]]) -> str:
-    """combine agent names into a string, and use "and" to connect the last
-    two names."""
-
-    def _get_name(agent_: Union[AgentBase, str]) -> str:
-        return agent_.name if isinstance(agent_, AgentBase) else agent_
-
-    if len(agents) == 1:
-        return _get_name(agents[0])
-
-    return (
-            ", ".join([_get_name(_) for _ in agents[:-1]])
-            + " and "
-            + _get_name(agents[-1])
-    )
-
-def team_description(team: list, over_state: int) -> str:
-    """combine agent names into a string, and use "and" to connect the last
-    two names."""
-    output_string = "{"
-    i = 1
-    for team_index in team:
-        if team_index.state != over_state:
-            output_string += f"team{i}: {team_index.teammate}"
-            i = i + 1
-            if i < len(team):
-                output_string += ", "
-    output_string += "}"
-
-    return output_string
-
-def team_description_detail(team: list, agent_list: list, over_state: int) -> str:
-    """combine agent names into a string, and use "and" to connect the last
-    two names."""
-    output_string = ""
     i=1
     for team_index in range(len(team)):
         if team[team_index].state!=over_state:
