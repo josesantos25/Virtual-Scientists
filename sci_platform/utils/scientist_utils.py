@@ -10,6 +10,7 @@ import json
 import sqlite3
 import re
 import sys
+import os
 
 sys.path.append('agentscope-main/src')
 from agentscope.service import (
@@ -40,6 +41,9 @@ def extract_name_and_id(name: str) -> tuple[str, int]:
         name = "Abstain"
         idx = -1
     return name, idx
+
+def team_description(team_list, over_state):
+    output_string = ""
     i=1
     for team_index in range(len(team)):
         if team[team_index].state!=over_state:
